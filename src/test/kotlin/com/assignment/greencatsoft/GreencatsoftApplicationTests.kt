@@ -1,10 +1,9 @@
 package com.assignment.greencatsoft
 
-//@SpringBootTest
+// @SpringBootTest
 class GreencatsoftApplicationTests {
 
 //    @Test
     fun contextLoads() {
     }
-
 }
