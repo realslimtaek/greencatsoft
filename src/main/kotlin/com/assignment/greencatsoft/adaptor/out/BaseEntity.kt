@@ -15,12 +15,21 @@ abstract class BaseEntity(
     @Id @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    @Column(name = "CREATED_AT", columnDefinition = "DATETIME", updatable = false)
+    @Column(
+        name = "CREATED_AT",
+        columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP",
+        updatable = false,
+        nullable = false,
+    )
     @CreatedDate
     val createdAt: LocalDateTime = current,
-    @Column(name = "UPDATED_AT", columnDefinition = "DATETIME")
+    @Column(
+        name = "UPDATED_AT",
+        columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+        nullable = false,
+    )
     @UpdateTimestamp
     var updatedAt: LocalDateTime = current,
 )
 
-private val current get() = LocalDateTime.now(ZoneOffset.of("Asia/Seoul"))
+private val current get() = LocalDateTime.now(ZoneOffset.of("+8"))
