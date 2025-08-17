@@ -48,6 +48,9 @@ dependencies {
     val queryDslVersion = dependencyManagement.importedProperties["querydsl.version"]
     implementation("com.querydsl:querydsl-jpa:$queryDslVersion:jakarta")
     kapt("com.querydsl:querydsl-apt:$queryDslVersion:jakarta")
+
+    // http 에러코드를 위한 라이브러리
+    implementation("org.apache.httpcomponents:httpclient:4.5.13")
 }
 
 kotlin {
