@@ -22,6 +22,7 @@ repositories {
 }
 
 dependencies {
+    // 스프링 세팅을 위한 라이브러리
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -43,7 +44,7 @@ dependencies {
     // mysql 연결.
     runtimeOnly("com.mysql:mysql-connector-j")
 
-    // Querydsl
+    // Querydsl 사용을 위한 라이브러리
     val queryDslVersion = dependencyManagement.importedProperties["querydsl.version"]
     implementation("com.querydsl:querydsl-jpa:$queryDslVersion:jakarta")
     kapt("com.querydsl:querydsl-apt:$queryDslVersion:jakarta")
