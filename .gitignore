@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 
 config/
+!**/src/main/**/config
 
 ### STS ###
 .apt_generated
