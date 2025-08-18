@@ -11,3 +11,8 @@ interface UserLoginReq {
     val email: String
     val password: String
 }
+
+interface UpdateUserInfoReq {
+    val email: String
+    val name: String
+}

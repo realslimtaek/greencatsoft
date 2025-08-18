@@ -26,6 +26,10 @@ class UserRepositoryAdaptor(
         )
     }
 
+    override fun save(domain: User): User = userMapper.toEntity(domain)
+        .run(userRepository::save)
+        .run(userMapper::toDomain)
+
     override fun findByEmail(email: String): User = userRepository.findByEmail(email)
         ?.run(userMapper::toDomain)
         ?: throwError(CustomErrorCode.NotFoundUser)

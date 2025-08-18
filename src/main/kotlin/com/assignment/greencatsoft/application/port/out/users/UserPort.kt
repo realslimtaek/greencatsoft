@@ -11,4 +11,5 @@ interface UserGetPort {
 
 interface UserSavePort {
     fun save(req: UserSignInReq)
+    fun save(domain: User): User
 }

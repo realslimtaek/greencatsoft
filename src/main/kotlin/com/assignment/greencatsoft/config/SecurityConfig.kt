@@ -99,7 +99,7 @@ class LoginUserDetail(
 
     override fun getPassword(): String? = password
 
-    override fun getUsername(): String = user.name!!
+    override fun getUsername(): String? = user.name
 
     override fun isAccountNonExpired(): Boolean = true
 
