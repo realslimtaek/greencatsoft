@@ -12,17 +12,17 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "TOKEN")
 class TokenEntity(
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", nullable = false, columnDefinition = "varchar(30)")
     val email: String,
 
-    @Column(name = "ROLE")
+    @Column(name = "ROLE", nullable = false)
     @Enumerated(EnumType.STRING)
     val role: Role,
 
-    @Column(name = "REFRESH_TOKEN")
+    @Column(name = "REFRESH_TOKEN", columnDefinition = "text", nullable = false)
     var refreshToken: String,
 
-    @Column(name = "REFRESH_EXPIRED_AT")
+    @Column(name = "REFRESH_EXPIRED_AT", columnDefinition = "datetime", nullable = false)
     var refreshExpireAt: LocalDateTime,
 
 ) : BaseEntity()
