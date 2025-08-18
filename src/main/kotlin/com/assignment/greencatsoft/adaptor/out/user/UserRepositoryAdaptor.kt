@@ -5,6 +5,7 @@ import com.assignment.greencatsoft.application.port.out.users.UserGetPort
 import com.assignment.greencatsoft.application.port.out.users.UserSavePort
 import com.assignment.greencatsoft.config.CustomErrorCode
 import com.assignment.greencatsoft.config.throwError
+import com.assignment.greencatsoft.domain.user.User
 import org.springframework.stereotype.Component
 
 @Component
@@ -24,4 +25,8 @@ class UserRepositoryAdaptor(
             userMapper.toEntity(req),
         )
     }
+
+    override fun findByEmail(email: String): User = userRepository.findByEmail(email)
+        ?.run(userMapper::toDomain)
+        ?: throwError(CustomErrorCode.NotFoundUser)
 }

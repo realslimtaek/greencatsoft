@@ -1,7 +1,7 @@
 package com.assignment.greencatsoft.adaptor.`in`.user
 
-import com.assignment.greencatsoft.application.port.`in`.user.UserOperationPort
-import com.assignment.greencatsoft.application.port.`in`.user.UserQueryPort
+import com.assignment.greencatsoft.application.port.`in`.user.UserOperationUseCase
+import com.assignment.greencatsoft.application.port.`in`.user.UserQueryUseCase
 import com.assignment.greencatsoft.config.CustomErrorCode
 import com.assignment.greencatsoft.config.throwError
 import org.springframework.http.HttpStatus
@@ -14,17 +14,32 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/user")
 class UserEndpoint(
-    private val userQueryPort: UserQueryPort,
-    private val userOperationPort: UserOperationPort,
+    private val userQueryUseCase: UserQueryUseCase,
+    private val userOperationUseCase: UserOperationUseCase,
 ) {
 
     @PostMapping("/signin")
     fun signIn(@RequestBody req: UserSignInReqDto): ResponseEntity<String> {
-        userOperationPort.signIn(req)
+        userOperationUseCase.signIn(req)
 
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
+
+    @PostMapping("/login")
+    fun login(@RequestBody req: UserLoginReqDto): ResponseEntity<String> {
+        val res = userQueryUseCase.login(req)
+
+        return ResponseEntity.ok()
+            .header("Authorization", res.first)
+            .header("Set-Cookie", res.second)
+            .body("Success")
+    }
 }
+
+data class UserLoginReqDto(
+    override val email: String,
+    override val password: String,
+) : UserLoginReq
 
 data class UserSignInReqDto(
     override val email: String,

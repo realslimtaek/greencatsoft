@@ -6,3 +6,8 @@ interface UserSignInReq {
     val rePassword: String
     fun validate()
 }
+
+interface UserLoginReq {
+    val email: String
+    val password: String
+}

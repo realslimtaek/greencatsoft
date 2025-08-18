@@ -1,25 +1,31 @@
 package com.assignment.greencatsoft.application.service.user
 
 import com.assignment.greencatsoft.adaptor.`in`.user.UserSignInReqDto
+import com.assignment.greencatsoft.application.port.`in`.token.TokenOperationUseCase
 import com.assignment.greencatsoft.application.port.out.users.UserGetPort
 import com.assignment.greencatsoft.application.port.out.users.UserSavePort
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.mock
 import org.mockito.Mockito.doNothing
+import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
+import org.springframework.security.crypto.password.PasswordEncoder
 
 class UserServiceTest {
 
     private lateinit var userSavePort: UserSavePort
     private lateinit var userGetPort: UserGetPort
+    private lateinit var passwordEncoder: PasswordEncoder
+    private lateinit var tokenOperationUseCase: TokenOperationUseCase
     private lateinit var userService: UserService
 
     @BeforeEach
     fun setUp() {
         userSavePort = mock()
         userGetPort = mock()
-        userService = UserService(userSavePort, userGetPort)
+        passwordEncoder = mock()
+        tokenOperationUseCase = mock()
+        userService = UserService(userSavePort, userGetPort, passwordEncoder, tokenOperationUseCase)
     }
 
     @Test

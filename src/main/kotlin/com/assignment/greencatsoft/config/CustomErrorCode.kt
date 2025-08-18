@@ -10,6 +10,24 @@ interface ErrorCode {
 
 object CustomErrorCode {
 
+    object InvalidToken : ErrorCode {
+        override val code = "INVALID_TOKEN"
+        override val label = "유효하지 않은 토큰입니다."
+        override val statusCode = HttpStatus.SC_UNAUTHORIZED
+    }
+
+    object TokenExpired : ErrorCode {
+        override val code = "TOKEN_EXPIRED"
+        override val label = "토큰이 만료되었습니다."
+        override val statusCode = HttpStatus.SC_UNAUTHORIZED
+    }
+
+    object NotFoundUser : ErrorCode {
+        override val code = "NOT_FOUND"
+        override val label = "사용자를 찾을 수 없습니다."
+        override val statusCode = HttpStatus.SC_BAD_REQUEST
+    }
+
     object BodyError : ErrorCode {
         override val code = "BODY_ERROR"
         override val label = "데이터를 올바르게 입력해주세요"
