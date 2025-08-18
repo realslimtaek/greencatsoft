@@ -14,6 +14,7 @@ import org.junit.jupiter.api.assertNull
 import org.mockito.Mockito.doNothing
 import org.mockito.Mockito.verify
 import org.mockito.kotlin.*
+import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import kotlin.test.assertEquals
 
@@ -31,7 +32,7 @@ class UserServiceTest {
     fun setUp() {
         userSavePort = mock()
         userGetPort = mock()
-        passwordEncoder = org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder()
+        passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
         tokenOperationUseCase = mock()
         groupSavePort = mock()
         responseMapper = mock()
