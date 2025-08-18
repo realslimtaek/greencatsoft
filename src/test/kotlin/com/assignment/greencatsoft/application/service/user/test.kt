@@ -1,16 +1,21 @@
 package com.assignment.greencatsoft.application.service.user
 
 import com.assignment.greencatsoft.adaptor.`in`.user.UserSignInReqDto
+import com.assignment.greencatsoft.adaptor.out.user.UserEntity
 import com.assignment.greencatsoft.application.port.`in`.token.TokenOperationUseCase
 import com.assignment.greencatsoft.application.port.out.group.GroupSavePort
 import com.assignment.greencatsoft.application.port.out.users.UserGetPort
 import com.assignment.greencatsoft.application.port.out.users.UserSavePort
+import com.assignment.greencatsoft.domain.user.User
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertNull
 import org.mockito.Mockito.doNothing
-import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
+import org.mockito.kotlin.*
 import org.springframework.security.crypto.password.PasswordEncoder
+import kotlin.test.assertEquals
 
 class UserServiceTest {
 
@@ -26,7 +31,7 @@ class UserServiceTest {
     fun setUp() {
         userSavePort = mock()
         userGetPort = mock()
-        passwordEncoder = mock()
+        passwordEncoder = org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder()
         tokenOperationUseCase = mock()
         groupSavePort = mock()
         responseMapper = mock()
@@ -36,15 +41,22 @@ class UserServiceTest {
     @Test
     fun `회원가입 비즈니스 로직 테스트`() {
         // given
-        val req = UserSignInReqDto(
-            email = "test@example.com",
-            password = "Password123!",
-            rePassword = "Password123!",
-        )
+        val req = UserSignInReqDto("test@example.com", "Password123!", "Password123!")
 
-        // No need to specify doNothing if just normal behavior
         doNothing().`when`(userGetPort).checkExistsEmail(req.email)
-        doNothing().`when`(userSavePort).save(req)
+
+        // save() 호출 시 mock User를 반환
+        val mockUser: User = mock {
+            on { id } doReturn 1L
+            on { email } doReturn req.email
+            on { password } doReturn passwordEncoder.encode(req.password)
+            on { name } doReturn null
+            on { status } doReturn UserEntity.UserStatus.PENDING
+        }
+
+        whenever(userSavePort.save(req)).thenReturn(mockUser)
+
+        doNothing().`when`(groupSavePort).makePersonalGroup(any())
 
         // when
         userService.signIn(req)
@@ -52,5 +64,16 @@ class UserServiceTest {
         // then
         verify(userGetPort).checkExistsEmail(req.email)
         verify(userSavePort).save(req)
+
+        // groupSavePort 호출 시 전달된 User 검증
+        val captor = argumentCaptor<User>()
+        verify(groupSavePort).makePersonalGroup(captor.capture())
+
+        val savedUser = captor.firstValue
+        assertEquals(req.email, savedUser.email)
+        assertTrue(passwordEncoder.matches(req.password, savedUser.password))
+        assertEquals(1L, savedUser.id)
+        assertNull(savedUser.name)
+        assertEquals(UserEntity.UserStatus.PENDING, savedUser.status)
     }
 }
