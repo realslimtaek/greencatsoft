@@ -2,6 +2,7 @@ package com.assignment.greencatsoft.application.service.user
 
 import com.assignment.greencatsoft.adaptor.`in`.user.UserSignInReqDto
 import com.assignment.greencatsoft.application.port.`in`.token.TokenOperationUseCase
+import com.assignment.greencatsoft.application.port.out.group.GroupSavePort
 import com.assignment.greencatsoft.application.port.out.users.UserGetPort
 import com.assignment.greencatsoft.application.port.out.users.UserSavePort
 import org.junit.jupiter.api.BeforeEach
@@ -18,6 +19,8 @@ class UserServiceTest {
     private lateinit var passwordEncoder: PasswordEncoder
     private lateinit var tokenOperationUseCase: TokenOperationUseCase
     private lateinit var userService: UserService
+    private lateinit var groupSavePort: GroupSavePort
+    private lateinit var responseMapper: UserResponseMapper
 
     @BeforeEach
     fun setUp() {
@@ -25,7 +28,9 @@ class UserServiceTest {
         userGetPort = mock()
         passwordEncoder = mock()
         tokenOperationUseCase = mock()
-        userService = UserService(userSavePort, userGetPort, passwordEncoder, tokenOperationUseCase)
+        groupSavePort = mock()
+        responseMapper = mock()
+        userService = UserService(userSavePort, userGetPort, groupSavePort, passwordEncoder, tokenOperationUseCase, responseMapper)
     }
 
     @Test
