@@ -6,5 +6,5 @@ import java.time.LocalDateTime
 interface TokenGetPort
 
 interface TokenSavePort {
-    fun addToken(refreshToken: String, expired: LocalDateTime, id: String, role: Role)
+    fun addToken(refreshToken: String, expired: LocalDateTime, email: String, role: Role)
 }

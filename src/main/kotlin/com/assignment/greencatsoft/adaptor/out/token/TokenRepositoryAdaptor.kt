@@ -11,8 +11,8 @@ class TokenRepositoryAdaptor(
     private val tokenRepository: TokenRepository,
     private val mapper: TokenMapper,
 ) : TokenSavePort, TokenGetPort {
-    override fun addToken(refreshToken: String, expired: LocalDateTime, id: String, role: Role) {
-        mapper.toEntity(refreshToken, expired, id, role)
+    override fun addToken(refreshToken: String, expired: LocalDateTime, email: String, role: Role) {
+        mapper.toEntity(refreshToken, expired, email, role)
             .run(tokenRepository::save)
     }
 }

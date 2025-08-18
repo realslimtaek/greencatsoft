@@ -16,7 +16,7 @@ class UserEntity(
     @Comment("이메일")
     val email: String,
 
-    @Column(name = "PASSWORD", nullable = false, columnDefinition = "varchar(30)")
+    @Column(name = "PASSWORD", nullable = false, columnDefinition = "varchar(100)")
     @Comment("비밀번호")
     var password: String,
 

@@ -7,8 +7,8 @@ import java.time.LocalDateTime
 @Component
 object TokenMapper {
 
-    fun toEntity(refreshToken: String, expired: LocalDateTime, id: String, role: Role) = TokenEntity(
-        uuid = id,
+    fun toEntity(refreshToken: String, expired: LocalDateTime, email: String, role: Role) = TokenEntity(
+        email = email,
         role = role,
         refreshToken = refreshToken,
         refreshExpireAt = expired,

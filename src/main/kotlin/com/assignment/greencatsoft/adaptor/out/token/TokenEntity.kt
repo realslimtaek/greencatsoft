@@ -12,8 +12,8 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "TOKEN")
 class TokenEntity(
-    @Column(name = "UUID")
-    val uuid: String,
+    @Column(name = "EMAIL")
+    val email: String,
 
     @Column(name = "ROLE")
     @Enumerated(EnumType.STRING)
