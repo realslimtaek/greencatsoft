@@ -29,7 +29,7 @@ class UserService(
 
     override fun login(req: UserLoginReq): Pair<String, String> {
         val user = userGetPort.findByEmail(req.email)
-        if (passwordEncoder.encode(req.password) != user.password) {
+        if (!passwordEncoder.matches(req.password, user.password)) {
             throwError(CustomErrorCode.LoginFailed)
         }
 
