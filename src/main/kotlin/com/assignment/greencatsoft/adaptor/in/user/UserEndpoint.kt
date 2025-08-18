@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/user")
+@Tag(name = "사용자", description = "사용자 관련 API")
 class UserEndpoint(
     private val userQueryUseCase: UserQueryUseCase,
     private val userOperationUseCase: UserOperationUseCase,
@@ -27,7 +29,11 @@ class UserEndpoint(
 ) {
 
     @PostMapping("/signin")
-    @Operation(summary = "사용자 회원가입", description = "회원가입을 진행합니다. 서비스를 이용하려면 로그인이 필요합니다.")
+    @Operation(
+        summary = "사용자 회원가입",
+        description = "회원가입을 진행합니다. 서비스를 이용하려면 로그인이 필요합니다." +
+            "<br>회원가입이 완료되면, 개인 그룹이 생성됩니다.",
+    )
     fun signIn(@RequestBody req: UserSignInReqDto): ResponseEntity<String> {
         userOperationUseCase.signIn(req)
 
