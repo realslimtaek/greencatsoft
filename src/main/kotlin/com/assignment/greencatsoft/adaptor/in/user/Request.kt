@@ -1,6 +1,6 @@
 package com.assignment.greencatsoft.adaptor.`in`.user
 
-interface UserSignInReq{
+interface UserSignInReq {
     val email: String
     val password: String
     val rePassword: String

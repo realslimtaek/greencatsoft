@@ -2,7 +2,6 @@ package com.assignment.greencatsoft.config
 
 import org.apache.http.HttpStatus
 
-
 interface ErrorCode {
     val code: String
     val label: String
@@ -38,6 +37,12 @@ object CustomErrorCode {
     object PasswordRegex : ErrorCode {
         override val code = "PASSWORD_REGEX"
         override val label = "비밀번호 형식을 확인해주세요"
+        override val statusCode = HttpStatus.SC_BAD_REQUEST
+    }
+
+    object DuplicateEmail : ErrorCode {
+        override val code = "DUPLICATE_EMAIL"
+        override val label = "해당 이메일은 가입 이력이 있습니다."
         override val statusCode = HttpStatus.SC_BAD_REQUEST
     }
 }

@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
-
 @RestControllerAdvice
 class EndpointExceptionHandler {
 
@@ -13,12 +12,11 @@ class EndpointExceptionHandler {
 
     private fun ApplicationException.response(status: Int): ResponseEntity<MessageResponse> = ResponseEntity.status(
         status,
-    ).body(MessageResponse(this.classify.code, this.message, this.classify.innerCode))
+    ).body(MessageResponse(this.classify.code, this.message))
 
     data class MessageResponse(
         val classify: String,
         val message: String?,
-        val innerCode: Int,
     )
 }
 

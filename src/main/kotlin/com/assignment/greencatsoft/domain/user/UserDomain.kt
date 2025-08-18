@@ -15,5 +15,5 @@ data class UserImpl(
     override val email: String,
     override var password: String,
     override var name: String?,
-    override var status: UsersStatus
-): User
+    override var status: UsersStatus,
+) : User

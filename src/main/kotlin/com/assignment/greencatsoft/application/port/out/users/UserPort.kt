@@ -1,5 +1,11 @@
 package com.assignment.greencatsoft.application.port.out.users
 
-interface UserGetPort
+import com.assignment.greencatsoft.adaptor.`in`.user.UserSignInReq
 
-interface UserSavePort
+interface UserGetPort {
+    fun checkExistsEmail(email: String)
+}
+
+interface UserSavePort {
+    fun save(req: UserSignInReq)
+}

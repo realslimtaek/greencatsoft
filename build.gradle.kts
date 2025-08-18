@@ -51,6 +51,9 @@ dependencies {
 
     // http 에러코드를 위한 라이브러리
     implementation("org.apache.httpcomponents:httpclient:4.5.13")
+
+    // 비밀번호 암호화를 위한 라이브러리
+    implementation("org.springframework.security:spring-security-crypto:6.5.1")
 }
 
 kotlin {
@@ -61,4 +64,8 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+configurations.all {
+    exclude(group = "commons-logging", module = "commons-logging")
 }
