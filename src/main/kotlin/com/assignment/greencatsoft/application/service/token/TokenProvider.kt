@@ -125,6 +125,7 @@ class TokenProvider(
         .setSubject(user.email)
         .claim("name", user.name)
         .claim("role", Role.USER)
+        .claim("status", user.status.name)
         .setExpiration(Date(tokenExpireTime.toInstant(ZoneOffset.of("+09:00")).toEpochMilli()))
         .signWith(key, SignatureAlgorithm.HS512)
         .compact()
