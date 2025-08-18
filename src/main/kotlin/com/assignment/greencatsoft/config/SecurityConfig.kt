@@ -103,9 +103,9 @@ class LoginUserDetail(
 
     override fun isAccountNonExpired(): Boolean = true
 
-    override fun isAccountNonLocked(): Boolean = user.status == UserEntity.UsersStatus.RESIGN
+    override fun isAccountNonLocked(): Boolean = user.status == UserEntity.UserStatus.RESIGN
 
     override fun isCredentialsNonExpired(): Boolean = true
 
-    override fun isEnabled(): Boolean = user.status == UserEntity.UsersStatus.ACTIVE
+    override fun isEnabled(): Boolean = user.status == UserEntity.UserStatus.ACTIVE
 }

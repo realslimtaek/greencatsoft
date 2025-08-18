@@ -27,11 +27,11 @@ class UserEntity(
     @Column(name = "STATUS", nullable = false)
     @Enumerated(EnumType.STRING)
     @Comment("회원 상태 (추가 정보 미 입력시 = Pending, 탈퇴 시 = Resign, 정상 = ACTIVE)")
-    var status: UsersStatus = UsersStatus.PENDING,
+    var status: UserStatus = UserStatus.PENDING,
 
 ) : BaseEntity() {
 
-    enum class UsersStatus() {
+    enum class UserStatus() {
         PENDING,
         ACTIVE,
         RESIGN,

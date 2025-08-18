@@ -37,7 +37,7 @@ class UserService(
     override fun updateInfo(req: UpdateUserInfoReq) = userGetPort.findByEmail(req.email)
         .apply {
             this.name = req.name
-            this.status = UserEntity.UsersStatus.ACTIVE
+            this.status = UserEntity.UserStatus.ACTIVE
         }
         .run(userSavePort::save)
         .run(responseMapper::toUpdateRes)

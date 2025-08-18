@@ -2,11 +2,19 @@ package com.assignment.greencatsoft.adaptor.`in`.group
 
 import com.assignment.greencatsoft.application.port.`in`.group.GroupOperationUseCase
 import com.assignment.greencatsoft.application.port.`in`.group.GroupQueryUseCase
+import com.assignment.greencatsoft.application.port.`in`.token.TokenQueryUseCase
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -18,4 +26,25 @@ import org.springframework.web.bind.annotation.RestController
 class GroupEndpoint(
     private val queryUseCase: GroupQueryUseCase,
     private val operationUseCase: GroupOperationUseCase,
-)
+    private val tokenQueryUseCase: TokenQueryUseCase,
+) {
+
+    @PostMapping
+    @Operation(summary = "그룹 생성", description = "다른 사용자와 일정을 공유할 수 있는 그룹을 생성합니다.")
+    fun addGroup(
+        @Parameter(hidden = true) @RequestHeader("Authorization") token: String,
+        @RequestBody req: GroupAddReqDto,
+    ): ResponseEntity<DefaultGroupRes> {
+        val (email, _) = tokenQueryUseCase.getSubAndRole(token)
+        val res = operationUseCase.addGroup(req.apply { this.owner = email })
+
+        return ResponseEntity.ok(res)
+    }
+}
+
+data class GroupAddReqDto(
+    @field:Schema(name = "owner", example = "", description = "token에서 자동으로 파싱됩니다.", nullable = false)
+    override var owner: String = "",
+    @field:Schema(name = "name", example = "가족여행", description = "그룹명", nullable = false)
+    override val name: String,
+) : GroupAddReq

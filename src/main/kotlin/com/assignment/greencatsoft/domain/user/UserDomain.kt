@@ -1,13 +1,13 @@
 package com.assignment.greencatsoft.domain.user
 
-import com.assignment.greencatsoft.adaptor.out.user.UserEntity.UsersStatus
+import com.assignment.greencatsoft.adaptor.out.user.UserEntity.UserStatus
 
 interface User {
     var id: Long?
     val email: String
     var password: String
     var name: String?
-    var status: UsersStatus
+    var status: UserStatus
 }
 
 data class UserImpl(
@@ -15,5 +15,5 @@ data class UserImpl(
     override val email: String,
     override var password: String,
     override var name: String?,
-    override var status: UsersStatus,
+    override var status: UserStatus,
 ) : User

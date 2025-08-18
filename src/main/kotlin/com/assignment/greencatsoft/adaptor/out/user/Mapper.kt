@@ -31,6 +31,6 @@ object UsersMapper {
     fun toEntity(req: UserSignInReq) = UserEntity(
         email = req.email,
         password = passwordEncoder.encode(req.password),
-        status = UserEntity.UsersStatus.PENDING,
+        status = UserEntity.UserStatus.PENDING,
     )
 }
