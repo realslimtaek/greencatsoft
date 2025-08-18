@@ -59,7 +59,11 @@ class UserEndpoint(
     }
 
     @PostMapping("/login")
-    @Operation(summary = "로그인", description = "로그인을 진행합니다.")
+    @Operation(
+        summary = "로그인",
+        description = "로그인을 진행합니다." +
+            "<br>Status가 PENDING이라면, 사용자 정보를 업데이트를 해야합니다.",
+    )
     fun login(@RequestBody req: UserLoginReqDto): ResponseEntity<UserInfoRes> {
         val res = userQueryUseCase.login(req)
 

@@ -7,8 +7,11 @@ import jakarta.persistence.Table
 import org.hibernate.annotations.Comment
 
 @Entity
-@Table(name = "GROUP")
+@Table(name = "`GROUP`")
 class GroupEntity(
+
+    @Column(name = "OWNER", columnDefinition = "varchar(30)", nullable = false)
+    val owner: String,
 
     @Column(name = "NAME", columnDefinition = "varchar(10)", nullable = false)
     @Comment("그룹명")

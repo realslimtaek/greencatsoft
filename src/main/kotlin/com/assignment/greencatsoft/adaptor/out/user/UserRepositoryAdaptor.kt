@@ -20,11 +20,9 @@ class UserRepositoryAdaptor(
         }
     }
 
-    override fun save(req: UserSignInReq) {
-        userRepository.save(
-            userMapper.toEntity(req),
-        )
-    }
+    override fun save(req: UserSignInReq) = userMapper.toEntity(req)
+        .run(userRepository::save)
+        .run(userMapper::toDomain)
 
     override fun save(domain: User): User = userMapper.toEntity(domain)
         .run(userRepository::save)

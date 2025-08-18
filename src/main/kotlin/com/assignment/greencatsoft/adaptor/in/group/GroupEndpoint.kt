@@ -1,5 +1,7 @@
 package com.assignment.greencatsoft.adaptor.`in`.group
 
+import com.assignment.greencatsoft.application.port.`in`.group.GroupOperationUseCase
+import com.assignment.greencatsoft.application.port.`in`.group.GroupQueryUseCase
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
@@ -13,4 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name = "그룹 설정", description = "그룹 관련 API")
 @SecurityScheme(name = "Authorization", type = SecuritySchemeType.APIKEY, `in` = SecuritySchemeIn.HEADER)
 @SecurityRequirement(name = "Authorization")
-class GroupEndpoint()
+class GroupEndpoint(
+    private val queryUseCase: GroupQueryUseCase,
+    private val operationUseCase: GroupOperationUseCase,
+)

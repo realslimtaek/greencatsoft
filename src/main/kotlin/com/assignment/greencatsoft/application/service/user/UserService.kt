@@ -8,6 +8,7 @@ import com.assignment.greencatsoft.adaptor.out.user.UserEntity
 import com.assignment.greencatsoft.application.port.`in`.token.TokenOperationUseCase
 import com.assignment.greencatsoft.application.port.`in`.user.UserOperationUseCase
 import com.assignment.greencatsoft.application.port.`in`.user.UserQueryUseCase
+import com.assignment.greencatsoft.application.port.out.group.GroupSavePort
 import com.assignment.greencatsoft.application.port.out.users.UserGetPort
 import com.assignment.greencatsoft.application.port.out.users.UserSavePort
 import com.assignment.greencatsoft.config.CustomErrorCode
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service
 class UserService(
     private val userSavePort: UserSavePort,
     private val userGetPort: UserGetPort,
+    private val groupSavePort: GroupSavePort,
     private val passwordEncoder: PasswordEncoder,
     private val tokenOperationUseCase: TokenOperationUseCase,
     private val responseMapper: UserResponseMapper,
@@ -29,6 +31,7 @@ class UserService(
     override fun signIn(req: UserSignInReq) {
         userGetPort.checkExistsEmail(req.email)
         userSavePort.save(req)
+            .also(groupSavePort::makePersonalGroup)
     }
 
     override fun updateInfo(req: UpdateUserInfoReq) = userGetPort.findByEmail(req.email)
