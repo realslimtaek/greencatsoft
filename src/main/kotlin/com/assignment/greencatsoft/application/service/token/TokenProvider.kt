@@ -33,7 +33,7 @@ class TokenProvider(
 ) : TokenQueryUseCase, TokenOperationUseCase {
 
     private val current get() = LocalDateTime.now(ZoneOffset.of("+8"))
-    private val key: Key = Keys.hmacShaKeyFor("jwt".toByteArray(Charsets.UTF_8))
+    private val key: Key = Keys.hmacShaKeyFor("a90751ed6690ed27c0d701abbb8cc3192fdad41d01722230ee2ec6adcde69638e5d621d66e992b1f13aa647661311598108af1323b4d12140a035a6487abaff1".toByteArray(Charsets.UTF_8))
 
     override fun createToken(user: User): Pair<String, String> {
         val accessTokenTime = current.plus(60 * 60 * 24, ChronoUnit.SECONDS)
