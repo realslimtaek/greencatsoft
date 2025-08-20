@@ -2,6 +2,8 @@ package com.assignment.greencatsoft.adaptor.`in`.group.user
 
 import com.assignment.greencatsoft.application.port.`in`.groupUser.GroupUserOperationUseCase
 import com.assignment.greencatsoft.application.port.`in`.token.TokenQueryUseCase
+import com.assignment.greencatsoft.config.CustomErrorCode
+import com.assignment.greencatsoft.config.throwError
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn
@@ -57,4 +59,19 @@ data class GroupInviteReqDto(
     override var owner: String = "",
     @field:Schema(name = "email", example = "asdf@asdf.com", description = "초대할 대상의 이메일. 해당 이메일은 회원이어야합니다.", nullable = false)
     override val email: String,
-) : GroupInviteReq
+) : GroupInviteReq {
+
+    init {
+        validate()
+    }
+
+    override fun validate() {
+        if (!emailRegex.matches(email)) {
+            throwError(CustomErrorCode.EmailRegex)
+        }
+    }
+
+    companion object {
+        val emailRegex = Regex("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\$")
+    }
+}
