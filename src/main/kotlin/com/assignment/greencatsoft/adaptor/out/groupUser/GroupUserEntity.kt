@@ -14,9 +14,9 @@ class GroupUserEntity(
     @Comment("그룹아이디")
     val groupId: Long,
 
-    @Column(name = "USER_ID", nullable = false, columnDefinition = "bigint(11)")
+    @Column(name = "USER_EMAIL", nullable = false, columnDefinition = "varchar(30)")
     @Comment("사용자아이디")
-    val userId: Long,
+    val userEmail: String,
 
     @Column(name = "ACCEPTED", nullable = false, columnDefinition = "tinyint(1)")
     @Comment("그룹 초대 수락 여부")

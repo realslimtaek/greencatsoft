@@ -26,7 +26,7 @@ object GroupMapper {
 
     fun toPersonalGroup(user: User) = GroupEntity(
         owner = user.email,
-        name = "개인그룹",
+        name = "나의 일정",
         private = true,
     )
 

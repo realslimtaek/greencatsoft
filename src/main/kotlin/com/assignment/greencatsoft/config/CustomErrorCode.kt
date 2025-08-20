@@ -23,8 +23,26 @@ object CustomErrorCode {
     }
 
     object NotFoundUser : ErrorCode {
-        override val code = "NOT_FOUND"
+        override val code = "NOT_FOUND_USER"
         override val label = "사용자를 찾을 수 없습니다."
+        override val statusCode = HttpStatus.SC_BAD_REQUEST
+    }
+
+    object NotFoundGroup : ErrorCode {
+        override val code = "NOT_FOUND_GROUP"
+        override val label = "사용자를 찾을 수 없습니다."
+        override val statusCode = HttpStatus.SC_BAD_REQUEST
+    }
+
+    object NotGroupOwner : ErrorCode {
+        override val code = "NOT_GROUP_OWNER"
+        override val label = "해당 그룹장이 아닙니다."
+        override val statusCode = HttpStatus.SC_BAD_REQUEST
+    }
+
+    object UserAlreadyInvited : ErrorCode {
+        override val code = "USER_ALREADY_INVITED"
+        override val label = "이미 초대된 사용자입니다."
         override val statusCode = HttpStatus.SC_BAD_REQUEST
     }
 

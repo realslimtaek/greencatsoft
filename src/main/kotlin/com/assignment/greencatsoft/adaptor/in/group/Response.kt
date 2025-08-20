@@ -10,5 +10,10 @@ data class DefaultGroupResDto(
     override val id: Long,
     override val owner: String,
     override val name: String,
-
 ) : DefaultGroupRes
+
+interface GroupListRes {
+    val id: Long
+    val name: String
+    val isOwner: Boolean
+}

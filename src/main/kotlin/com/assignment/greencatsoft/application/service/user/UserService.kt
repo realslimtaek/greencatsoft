@@ -35,7 +35,7 @@ class UserService(
         val user = userSavePort.save(req)
 
         groupSavePort.makePersonalGroup(user)
-            .also { groupUserSavePort.makePrivateGroupUser(it.id!!, user.id!!) }
+            .also { groupUserSavePort.makeOwnGroupUser(it.id!!, user.email) }
     }
 
     override fun updateInfo(req: UpdateUserInfoReq) = userGetPort.findByEmail(req.email)

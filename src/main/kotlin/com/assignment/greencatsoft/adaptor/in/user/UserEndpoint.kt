@@ -40,7 +40,7 @@ class UserEndpoint(
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
-    @PutMapping()
+    @PutMapping
     @Operation(
         summary = "사용자 정보 수정",
         description = "사용자 정보를 수정합니다." +
