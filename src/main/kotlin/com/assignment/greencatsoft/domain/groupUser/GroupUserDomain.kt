@@ -11,5 +11,5 @@ data class GroupUserImpl(
     override val id: Long?,
     override val groupId: Long,
     override val userId: Long,
-    override var accepted: Boolean
-): GroupUser
+    override var accepted: Boolean,
+) : GroupUser

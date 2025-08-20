@@ -9,6 +9,7 @@ import com.assignment.greencatsoft.application.port.`in`.token.TokenOperationUse
 import com.assignment.greencatsoft.application.port.`in`.user.UserOperationUseCase
 import com.assignment.greencatsoft.application.port.`in`.user.UserQueryUseCase
 import com.assignment.greencatsoft.application.port.out.group.GroupSavePort
+import com.assignment.greencatsoft.application.port.out.groupUser.GroupUserSavePort
 import com.assignment.greencatsoft.application.port.out.users.UserGetPort
 import com.assignment.greencatsoft.application.port.out.users.UserSavePort
 import com.assignment.greencatsoft.config.CustomErrorCode
@@ -26,12 +27,15 @@ class UserService(
     private val passwordEncoder: PasswordEncoder,
     private val tokenOperationUseCase: TokenOperationUseCase,
     private val responseMapper: UserResponseMapper,
+    private val groupUserSavePort: GroupUserSavePort,
 ) : UserQueryUseCase, UserOperationUseCase {
 
     override fun signIn(req: UserSignInReq) {
         userGetPort.checkExistsEmail(req.email)
-        userSavePort.save(req)
-            .also(groupSavePort::makePersonalGroup)
+        val user = userSavePort.save(req)
+
+        groupSavePort.makePersonalGroup(user)
+            .also { groupUserSavePort.makePrivateGroupUser(it.id!!, user.id!!) }
     }
 
     override fun updateInfo(req: UpdateUserInfoReq) = userGetPort.findByEmail(req.email)

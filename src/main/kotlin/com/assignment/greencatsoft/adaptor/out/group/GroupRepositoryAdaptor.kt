@@ -13,10 +13,9 @@ class GroupRepositoryAdaptor(
     private val groupMapper: GroupMapper,
 ) : GroupSavePort, GroupGetPort {
 
-    override fun makePersonalGroup(user: User) {
-        groupMapper.toPersonalGroup(user)
-            .run(groupRepository::save)
-    }
+    override fun makePersonalGroup(user: User): Group = groupMapper.toPersonalGroup(user)
+        .run(groupRepository::save)
+        .run(groupMapper::toDomain)
 
     override fun makeGroup(req: GroupAddReq): Group = groupMapper.toEntity(req)
         .run(groupRepository::save)

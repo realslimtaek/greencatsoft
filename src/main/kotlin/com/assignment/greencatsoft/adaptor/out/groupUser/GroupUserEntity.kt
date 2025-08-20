@@ -6,7 +6,6 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import org.hibernate.annotations.Comment
 
-
 @Entity
 @Table(name = "GROUP_USER")
 class GroupUserEntity(

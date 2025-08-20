@@ -5,7 +5,7 @@ import com.assignment.greencatsoft.domain.group.Group
 import com.assignment.greencatsoft.domain.user.User
 
 interface GroupSavePort {
-    fun makePersonalGroup(user: User)
+    fun makePersonalGroup(user: User): Group
     fun makeGroup(req: GroupAddReq): Group
 }
 

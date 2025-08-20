@@ -4,8 +4,10 @@ import com.assignment.greencatsoft.adaptor.`in`.user.UserSignInReqDto
 import com.assignment.greencatsoft.adaptor.out.user.UserEntity
 import com.assignment.greencatsoft.application.port.`in`.token.TokenOperationUseCase
 import com.assignment.greencatsoft.application.port.out.group.GroupSavePort
+import com.assignment.greencatsoft.application.port.out.groupUser.GroupUserSavePort
 import com.assignment.greencatsoft.application.port.out.users.UserGetPort
 import com.assignment.greencatsoft.application.port.out.users.UserSavePort
+import com.assignment.greencatsoft.domain.group.Group
 import com.assignment.greencatsoft.domain.user.User
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -27,6 +29,7 @@ class UserServiceTest {
     private lateinit var userService: UserService
     private lateinit var groupSavePort: GroupSavePort
     private lateinit var responseMapper: UserResponseMapper
+    private lateinit var groupUserSavePort: GroupUserSavePort
 
     @BeforeEach
     fun setUp() {
@@ -36,7 +39,16 @@ class UserServiceTest {
         tokenOperationUseCase = mock()
         groupSavePort = mock()
         responseMapper = mock()
-        userService = UserService(userSavePort, userGetPort, groupSavePort, passwordEncoder, tokenOperationUseCase, responseMapper)
+        groupUserSavePort = mock()
+        userService = UserService(
+            userSavePort,
+            userGetPort,
+            groupSavePort,
+            passwordEncoder,
+            tokenOperationUseCase,
+            responseMapper,
+            groupUserSavePort,
+        )
     }
 
     @Test
@@ -55,9 +67,16 @@ class UserServiceTest {
             on { status } doReturn UserEntity.UserStatus.PENDING
         }
 
+        val mockGroup: Group = mock {
+            on { id } doReturn 1L
+            on { owner } doReturn req.email
+            on { name } doReturn "홍길동"
+            on { private } doReturn true
+        }
+
         whenever(userSavePort.save(req)).thenReturn(mockUser)
 
-        doNothing().`when`(groupSavePort).makePersonalGroup(any())
+        whenever(groupSavePort.makePersonalGroup(mockUser)).thenReturn(mockGroup)
 
         // when
         userService.signIn(req)
