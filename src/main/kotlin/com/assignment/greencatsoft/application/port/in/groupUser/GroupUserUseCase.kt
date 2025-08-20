@@ -6,4 +6,6 @@ interface GroupUserQueryUseCase
 
 interface GroupUserOperationUseCase {
     fun inviteGroup(req: GroupInviteReq)
+
+    fun updateGroupInvite(email: String, groupId: Long)
 }

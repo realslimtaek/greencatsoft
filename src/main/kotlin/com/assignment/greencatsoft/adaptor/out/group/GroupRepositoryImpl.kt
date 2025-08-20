@@ -21,6 +21,7 @@ class GroupRepositoryImpl(
                 groupEntity.name,
                 groupEntity.owner.`as`("_ownerEmail"),
                 groupUserEntity.userEmail.`as`("_userEmail"),
+                groupUserEntity.accepted,
             ),
         )
         .from(groupEntity)
@@ -29,7 +30,6 @@ class GroupRepositoryImpl(
             groupUserEntity.userEmail.eq(email),
             groupEntity.id.eq(groupUserEntity.id),
         )
-//        .where(groupEntity.)
         .fetch()
 }
 
@@ -38,6 +38,7 @@ data class GroupListResDto(
     override val name: String = "",
     private val _ownerEmail: String = "1",
     private val _userEmail: String = "2",
+    override val accepted: Boolean = false,
 ) : GroupListRes {
     override val isOwner: Boolean get() = _ownerEmail == _userEmail
 }

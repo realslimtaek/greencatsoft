@@ -16,4 +16,5 @@ interface GroupListRes {
     val id: Long
     val name: String
     val isOwner: Boolean
+    val accepted: Boolean
 }

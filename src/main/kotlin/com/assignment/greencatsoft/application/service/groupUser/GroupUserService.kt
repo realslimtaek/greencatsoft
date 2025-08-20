@@ -9,9 +9,11 @@ import com.assignment.greencatsoft.application.port.out.groupUser.GroupUserSaveP
 import com.assignment.greencatsoft.application.port.out.users.UserGetPort
 import com.assignment.greencatsoft.config.CustomErrorCode
 import com.assignment.greencatsoft.config.throwError
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
+@Transactional
 class GroupUserService(
     private val groupUserSavePort: GroupUserSavePort,
     private val groupUserGetPort: GroupUserGetPort,
@@ -32,5 +34,11 @@ class GroupUserService(
         val invited = userGetPort.findByEmail(req.email)
 
         groupUserSavePort.inviteUser(group, invited)
+    }
+
+    override fun updateGroupInvite(email: String, groupId: Long) {
+        groupUserGetPort.getInviteHistory(groupId, email)
+            .apply { this.accepted = true }
+            .run(groupUserSavePort::save)
     }
 }

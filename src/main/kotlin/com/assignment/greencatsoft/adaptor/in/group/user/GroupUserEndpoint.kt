@@ -12,11 +12,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestHeader
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/group/user")
@@ -38,6 +34,19 @@ class GroupUserEndpoint(
         groupUserOperationUseCase.inviteGroup(req.apply { this.owner = email })
 
         return ResponseEntity.status(HttpStatus.CREATED).build()
+    }
+
+    @PutMapping("/accept/{groupId}")
+    @Operation(summary = "그룹 초대 수락", description = "초대받은 그룹 요청을 수락합니다.")
+    @Parameter(name = "groupId", description = "그룹ID", example = "1", required = true)
+    fun acceptGroup(
+        @Parameter(hidden = true) @RequestHeader("Authorization") token: String,
+        @PathVariable groupId: Long,
+    ): ResponseEntity<String> {
+        val (email, _) = tokenQueryUseCase.getSubAndRole(token)
+
+        groupUserOperationUseCase.updateGroupInvite(email, groupId)
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build()
     }
 }
 
