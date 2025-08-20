@@ -4,4 +4,5 @@ interface GroupInviteReq {
     val groupId: Long
     val owner: String
     val email: String
+    fun validate()
 }
