@@ -29,10 +29,9 @@ class SecurityConfig(
     @Bean
     fun filterChain(http: HttpSecurity) = http
         .csrf { it.disable() }
-        .headers { it.frameOptions { frameOptions -> frameOptions.sameOrigin() } } // H2 콘솔 사용을 위한 설정
+        .headers { it.frameOptions { frameOptions -> frameOptions.sameOrigin() } }
         .authorizeHttpRequests {
-            it.requestMatchers("/v1/parents/**").hasRole("USER")
-                .anyRequest().permitAll() // 그 외의 모든 요청은 인증 x
+            it.anyRequest().permitAll() // 모든 요청 허용
         }
         .exceptionHandling {
             it.accessDeniedHandler { _, response, _ ->
