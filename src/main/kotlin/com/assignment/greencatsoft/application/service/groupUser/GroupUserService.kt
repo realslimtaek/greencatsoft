@@ -36,9 +36,15 @@ class GroupUserService(
         groupUserSavePort.inviteUser(group, invited)
     }
 
-    override fun updateGroupInvite(email: String, groupId: Long) {
+    override fun acceptGroupInvite(email: String, groupId: Long) {
         groupUserGetPort.getInviteHistory(groupId, email)
             .apply { this.accepted = true }
             .run(groupUserSavePort::save)
+    }
+
+    override fun declineGroupInvite(email: String, groupId: Long) {
+        groupUserGetPort.getInviteHistory(groupId, email)
+            .apply { this.accepted = true }
+            .run(groupUserSavePort::delete)
     }
 }

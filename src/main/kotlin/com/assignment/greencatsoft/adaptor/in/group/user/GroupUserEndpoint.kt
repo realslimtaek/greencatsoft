@@ -47,7 +47,19 @@ class GroupUserEndpoint(
     ): ResponseEntity<String> {
         val (email, _) = tokenQueryUseCase.getSubAndRole(token)
 
-        groupUserOperationUseCase.updateGroupInvite(email, groupId)
+        groupUserOperationUseCase.acceptGroupInvite(email, groupId)
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build()
+    }
+
+    @DeleteMapping("/decline/{groupId}")
+    @Operation(summary = "그룹 초대 거부", description = "초대받은 그룹 요청을 거부합니다.")
+    fun declineGroup(
+        @Parameter(hidden = true) @RequestHeader("Authorization") token: String,
+        @PathVariable groupId: Long,
+    ): ResponseEntity<String> {
+        val (email, _) = tokenQueryUseCase.getSubAndRole(token)
+
+        groupUserOperationUseCase.declineGroupInvite(email, groupId)
         return ResponseEntity.status(HttpStatus.ACCEPTED).build()
     }
 }

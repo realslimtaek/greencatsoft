@@ -10,6 +10,8 @@ interface GroupUserSavePort {
     fun inviteUser(group: Group, user: User)
 
     fun save(domain: GroupUser)
+
+    fun delete(domain: GroupUser)
 }
 
 interface GroupUserGetPort {
