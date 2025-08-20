@@ -97,7 +97,7 @@ class LoginUserDetail(
 ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = mutableListOf(SimpleGrantedAuthority(role.name))
 
-    override fun getPassword(): String? = password
+    override fun getPassword(): String = user.password
 
     override fun getUsername(): String? = user.name
 
