@@ -30,5 +30,9 @@ class GroupRepositoryAdaptor(
         ?.run(groupMapper::toDomain)
         ?: throwError(CustomErrorCode.NotFoundGroup)
 
+    override fun deleteGroup(groupId: Long) {
+        groupRepository.deleteById(groupId)
+    }
+
     override fun getGroups(email: String): List<GroupListRes> = groupRepository.getGroups(email)
 }

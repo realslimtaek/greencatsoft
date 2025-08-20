@@ -10,4 +10,6 @@ interface GroupQueryUseCase {
 
 interface GroupOperationUseCase {
     fun addGroup(req: GroupAddReq): DefaultGroupRes
+
+    fun deleteGroup(email: String, groupId: Long)
 }

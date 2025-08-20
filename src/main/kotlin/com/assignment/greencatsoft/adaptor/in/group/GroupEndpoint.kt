@@ -11,8 +11,11 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
@@ -49,6 +52,18 @@ class GroupEndpoint(
         val res = queryUseCase.getGroups(email)
 
         return ResponseEntity.ok(res)
+    }
+
+    @DeleteMapping("/{groupId}")
+    @Operation(summary = "그룹을 탈퇴합니다.", description = "가입한 그룹을 탈퇴합니다. 내가 그룹 소유자 일경우, 해당 그룹을 삭제합니다.")
+    fun deleteGroup(
+        @Parameter(hidden = true) @RequestHeader("Authorization") token: String,
+        @PathVariable groupId: Long,
+    ): ResponseEntity<String> {
+        val (email, _) = tokenQueryUseCase.getSubAndRole(token)
+
+        operationUseCase.deleteGroup(email, groupId)
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build()
     }
 }
 

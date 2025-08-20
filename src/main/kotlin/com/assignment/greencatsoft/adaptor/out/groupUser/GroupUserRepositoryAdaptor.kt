@@ -34,6 +34,10 @@ class GroupUserRepositoryAdaptor(
         repository.deleteByGroupIdAndUserEmailAndAcceptedIsFalse(domain.groupId, domain.userEmail)
     }
 
+    override fun resignGroup(groupId: Long, userEmail: String) {
+        repository.deleteByGroupIdAndUserEmailAndAcceptedIsTrue(groupId, userEmail)
+    }
+
     override fun checkExistsUser(groupId: Long, userEmail: String): Boolean = repository.existsByGroupIdAndUserEmail(groupId, userEmail)
 
     override fun getInviteHistory(groupId: Long, email: String) = repository.findByGroupIdAndUserEmailAndAcceptedIsFalse(groupId, email)

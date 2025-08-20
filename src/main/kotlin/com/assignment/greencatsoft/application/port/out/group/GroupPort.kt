@@ -8,6 +8,7 @@ import com.assignment.greencatsoft.domain.user.User
 interface GroupSavePort {
     fun makePersonalGroup(user: User): Group
     fun makeGroup(req: GroupAddReq): Group
+    fun deleteGroup(groupId: Long)
 }
 
 interface GroupGetPort {

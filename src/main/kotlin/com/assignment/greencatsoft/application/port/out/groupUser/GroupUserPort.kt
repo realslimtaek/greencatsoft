@@ -12,6 +12,8 @@ interface GroupUserSavePort {
     fun save(domain: GroupUser)
 
     fun delete(domain: GroupUser)
+
+    fun resignGroup(groupId: Long, userEmail: String)
 }
 
 interface GroupUserGetPort {

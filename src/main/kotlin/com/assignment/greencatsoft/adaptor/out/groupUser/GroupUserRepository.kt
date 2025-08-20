@@ -8,4 +8,6 @@ interface GroupUserRepository : JpaRepository<GroupUserEntity, Long> {
     fun findByGroupIdAndUserEmailAndAcceptedIsFalse(groupId: Long, userEmail: String): GroupUserEntity?
 
     fun deleteByGroupIdAndUserEmailAndAcceptedIsFalse(groupId: Long, userEmail: String)
+
+    fun deleteByGroupIdAndUserEmailAndAcceptedIsTrue(groupId: Long, userEmail: String)
 }
