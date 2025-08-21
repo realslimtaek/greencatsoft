@@ -68,7 +68,7 @@ class GroupEndpoint(
 }
 
 data class GroupAddReqDto(
-    @field:Schema(name = "owner", example = "", description = "token에서 자동으로 파싱됩니다.", nullable = false)
+    @field:Schema(name = "owner", example = "", description = "token에서 자동으로 파싱됩니다.", nullable = false, hidden = true)
     override var owner: String = "",
     @field:Schema(name = "name", example = "가족여행", description = "그룹명", nullable = false)
     override val name: String,
