@@ -106,7 +106,7 @@ object CustomErrorCode {
         override val statusCode = HttpStatus.SC_BAD_REQUEST
     }
 
-    object NotPublicGroup: ErrorCode {
+    object NotPublicGroup : ErrorCode {
         override val code = "NOT_PUBLIC_GROUP"
         override val label = "공개 그룹이 아닙니다."
         override val statusCode = HttpStatus.SC_BAD_REQUEST

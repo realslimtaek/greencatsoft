@@ -27,7 +27,7 @@ class GroupUserService(
             throwError(CustomErrorCode.NotGroupOwner)
         }
 
-        if(group.private) {
+        if (group.private) {
             throwError(CustomErrorCode.NotPublicGroup)
         }
 
