@@ -123,3 +123,5 @@
    - Mockito-Kotlin: Kotlin의 장점을 활용해 테스트 코드를 간결하게 작성하기 위해 사용했습니다. 예를 들어, Mock 객체의 메서드 인자를 검증할 때 Mockito의 any() 대신 any<SomeClass>()와 같이 타입을 명시하여 가독성을 높였습니다.
 4. api 명세서
    - http://localhost:8008/gs/swagger-ui/index.html
+5. DB ERD
+   - https://www.erdcloud.com/d/D7pvqffi8yDpA6h3W
