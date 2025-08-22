@@ -50,7 +50,7 @@ class ScheduleRepositoryImpl(
             .join(groupUserEntity)
             .on(
                 groupUserEntity.groupId.eq(groupEntity.id),
-                groupUserEntity.accepted.isTrue
+                groupUserEntity.accepted.isTrue,
             )
             .join(userEntity)
             .on(

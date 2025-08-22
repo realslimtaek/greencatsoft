@@ -72,7 +72,6 @@ data class GroupInviteReqDto(
 ) : GroupInviteReq {
     override lateinit var owner: String
 
-
     init {
         validate()
     }

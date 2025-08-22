@@ -30,9 +30,11 @@ class ScheduleService(
     }
 
     override fun addSchedule(req: AddScheduleReq) {
-        if(groupUserGetPort.amIInGroup(req.groupId, req.writer))
+        if (groupUserGetPort.amIInGroup(req.groupId, req.writer)) {
             scheduleSavePort.addSchedule(req)
-        else throwError(CustomErrorCode.NotMyGroup)
+        } else {
+            throwError(CustomErrorCode.NotMyGroup)
+        }
     }
 
     override fun updateSchedule(req: UpdateScheduleReq) {
