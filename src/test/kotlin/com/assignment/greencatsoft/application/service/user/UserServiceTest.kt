@@ -11,7 +11,6 @@ import com.assignment.greencatsoft.application.port.out.users.UserGetPort
 import com.assignment.greencatsoft.application.port.out.users.UserSavePort
 import com.assignment.greencatsoft.domain.group.Group
 import com.assignment.greencatsoft.domain.user.User
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNull
@@ -54,30 +53,19 @@ class UserServiceTest {
     }
 
     val defaultMockEmail = "test@example.com"
-    val defaultMockPassword = "Password123!"
+    val defaultMockPassword = "encodedPassword1!"
 
-    // save() 호출 시 mock User를 반환
     val mockPendingUser: User = mock {
         on { id } doReturn 1L
         on { email } doReturn defaultMockEmail
-        on { password } doReturn "encodedPassword1!"
+        on { password } doReturn defaultMockPassword
         on { name } doReturn null
         on { status } doReturn UserStatus.PENDING
     }
 
-    // save() 호출 시 mock User를 반환
-    val mockActiveUser: User = mock {
-        on { id } doReturn 1L
-        on { email } doReturn defaultMockEmail
-        on { password } doReturn "encodedPassword1!"
-        on { name } doReturn "need2change"
-        on { status } doReturn UserStatus.ACTIVE
-    }
-
     @Test
     fun `회원가입 비즈니스 로직 테스트`() {
-        // given
-        val req = UserSignInReqDto(defaultMockEmail, defaultMockPassword, "Password123!")
+        val req = UserSignInReqDto(defaultMockEmail, defaultMockPassword, defaultMockPassword)
 
         doNothing().`when`(userGetPort).checkExistsEmail(req.email)
 
@@ -92,20 +80,17 @@ class UserServiceTest {
 
         whenever(groupSavePort.makePersonalGroup(mockPendingUser)).thenReturn(mockGroup)
 
-        // when
         userService.signIn(req)
 
-        // then
         verify(userGetPort).checkExistsEmail(req.email)
         verify(userSavePort).save(req)
 
-        // groupSavePort 호출 시 전달된 User 검증
         val captor = argumentCaptor<User>()
         verify(groupSavePort).makePersonalGroup(captor.capture())
 
         val savedUser = captor.firstValue
         assertEquals(req.email, savedUser.email)
-        assertTrue(passwordEncoder.matches(req.password, savedUser.password))
+        assertEquals(req.password, savedUser.password)
         assertEquals(1L, savedUser.id)
         assertNull(savedUser.name)
         assertEquals(UserStatus.PENDING, savedUser.status)

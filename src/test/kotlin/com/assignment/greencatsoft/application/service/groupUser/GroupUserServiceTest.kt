@@ -17,7 +17,6 @@ import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import kotlin.test.Test
 
-
 class GroupUserServiceTest {
     private lateinit var groupUserService: GroupUserService
     private lateinit var groupUserSavePort: GroupUserSavePort
