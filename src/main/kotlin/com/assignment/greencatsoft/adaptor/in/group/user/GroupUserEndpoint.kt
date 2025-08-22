@@ -70,6 +70,7 @@ data class GroupInviteReqDto(
     @field:Schema(name = "email", example = "asdf@asdf.com", description = "초대할 대상의 이메일. 해당 이메일은 회원이어야합니다.", nullable = false)
     override val email: String,
 ) : GroupInviteReq {
+    @field:Schema(hidden = true)
     override lateinit var owner: String
 
     init {

@@ -71,5 +71,6 @@ data class GroupAddReqDto(
     @field:Schema(name = "name", example = "가족여행", description = "그룹명", nullable = false)
     override val name: String,
 ) : GroupAddReq {
+    @field:Schema(hidden = true)
     override lateinit var owner: String
 }

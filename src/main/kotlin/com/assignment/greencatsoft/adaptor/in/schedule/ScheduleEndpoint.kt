@@ -3,6 +3,8 @@ package com.assignment.greencatsoft.adaptor.`in`.schedule
 import com.assignment.greencatsoft.application.port.`in`.schedule.ScheduleOperationUseCase
 import com.assignment.greencatsoft.application.port.`in`.schedule.ScheduleQueryUseCase
 import com.assignment.greencatsoft.application.port.`in`.token.TokenQueryUseCase
+import com.assignment.greencatsoft.config.CustomErrorCode
+import com.assignment.greencatsoft.config.throwError
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn
@@ -55,7 +57,7 @@ class ScheduleEndpoint(
     @GetMapping
     @Operation(summary = "일정 조회", description = "일정을 조회합니다.")
     @Parameter(name = "yearMonth", description = "검색 기준 연-월", example = "2025-08", required = true)
-    @Parameter(name = "group", description = "그룹 id", example = "1", required = false)
+    @Parameter(name = "groupId", description = "그룹 id, 특정 그룹의 일정만 조회할때 사용합니다.", example = "1", required = false)
     fun getSchedule(
         @Parameter(hidden = true) @RequestHeader("Authorization") token: String,
         yearMonth: YearMonth,
@@ -97,6 +99,7 @@ data class AddScheduleReqDto(
     @field:Schema(name = "memo", example = "제육볶음먹자", description = "일정 메모", required = true)
     override val memo: String?,
 ) : AddScheduleReq {
+    @field:Schema(hidden = true)
     override lateinit var writer: String
 }
 
@@ -118,6 +121,12 @@ data class UpdateScheduleReqDto(
     @field:Schema(name = "memo", example = "1", description = "일정 메모", required = true)
     override val memo: String?,
 ) : UpdateScheduleReq {
-
+    @field:Schema(hidden = true)
     override lateinit var writer: String
+
+    init {
+        if ((startTime == null && endTime != null) || (startTime != null && endTime == null)) {
+            throwError(CustomErrorCode.DataError)
+        }
+    }
 }

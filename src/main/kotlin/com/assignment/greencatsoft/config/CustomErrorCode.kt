@@ -99,4 +99,10 @@ object CustomErrorCode {
         override val label = "해당 그룹의 일원이 아닙니다."
         override val statusCode = HttpStatus.SC_BAD_REQUEST
     }
+
+    object DataError : ErrorCode {
+        override val code = "DATA_ERROR"
+        override val label = "데이터 입력 오류"
+        override val statusCode = HttpStatus.SC_BAD_REQUEST
+    }
 }
