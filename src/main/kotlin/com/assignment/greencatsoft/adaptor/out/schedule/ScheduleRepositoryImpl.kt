@@ -73,6 +73,12 @@ class ScheduleRepositoryImpl(
                     )
                 },
             )
+            .orderBy(
+                scheduleEntity.startDate.asc(),
+                scheduleEntity.startTime.asc(),
+                scheduleEntity.endDate.asc(),
+                scheduleEntity.endTime.asc(),
+            )
             .fetch()
     }
 
