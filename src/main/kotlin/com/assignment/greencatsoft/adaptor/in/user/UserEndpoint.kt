@@ -83,14 +83,14 @@ data class UpdateUserInfoReqDto(
 }
 
 data class UserLoginReqDto(
-    @field:Schema(name = "email", example = "asdf@asdf.com", description = "사용자 이메일", nullable = false)
+    @field:Schema(name = "email", example = "test1@test.com", description = "사용자 이메일", nullable = false)
     override val email: String,
     @field:Schema(name = "password", example = "Qwer1234!", description = "사용자 비밀번호", nullable = false)
     override val password: String,
 ) : UserLoginReq
 
 data class UserSignInReqDto(
-    @field:Schema(name = "email", example = "asdf@asdf.com", description = "사용자 이메일을 입력합니다. 이메일 형식이 지켜져야합니다.", nullable = false)
+    @field:Schema(name = "email", example = "test1@test.com", description = "사용자 이메일을 입력합니다. 이메일 형식이 지켜져야합니다.", nullable = false)
     override val email: String,
     @field:Schema(name = "password", example = "Qwer1234!", description = "대문자, 소문자, 특수문자, 숫자를 모두 포함해야합니다.", nullable = false)
     override val password: String,
