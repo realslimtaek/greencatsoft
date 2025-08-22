@@ -5,6 +5,7 @@ import java.time.LocalTime
 
 interface GetScheduleRes {
     val id: Long?
+    val groupId: Long?
     val groupName: String?
     val writerName: String?
     val title: String?

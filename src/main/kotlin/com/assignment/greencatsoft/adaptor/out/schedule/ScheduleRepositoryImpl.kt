@@ -28,6 +28,7 @@ class ScheduleRepositoryImpl(
                 Projections.fields(
                     GetScheduleResDto::class.java,
                     scheduleEntity.id,
+                    groupEntity.id.`as`("groupId"),
                     groupEntity.name.`as`("groupName"),
                     userEntity.name.`as`("writerName"),
                     scheduleEntity.title,
@@ -94,6 +95,7 @@ class ScheduleRepositoryImpl(
 
 data class GetScheduleResDto(
     override val id: Long? = null,
+    override val groupId: Long? = null,
     override val groupName: String? = null,
     override val writerName: String? = null,
     override val title: String? = null,
