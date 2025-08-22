@@ -27,6 +27,10 @@ class GroupUserService(
             throwError(CustomErrorCode.NotGroupOwner)
         }
 
+        if(group.private) {
+            throwError(CustomErrorCode.NotPublicGroup)
+        }
+
         if (groupUserGetPort.checkExistsUser(group.id!!, req.email)) {
             throwError(CustomErrorCode.UserAlreadyInvited)
         }
