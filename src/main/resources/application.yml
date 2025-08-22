@@ -1,0 +1,28 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /gs
+spring:
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
+  datasource:
+    url: "jdbc:mysql://localhost:3306/SCHEDULE?autoReconnect=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Seoul"
+    username: root
+    password: 1234
+
+# Springdoc 설정
+springdoc:
+  api-docs:
+    path: /docs # 접속 path 설정
+  swagger-ui:
+    configUrl: /gs/docs/swagger-config # swagger-config 파일 위치
+    url: /gs/docs # docs path 설정
+    display-request-duration: true # 요청 시간 표시
+  cache:
+    disabled: true # 캐시 사용 여부
+
+dv:
+  jwt:
+    key: a90751ed6690ed27c0d701abbb8cc3192fdad41d01722230ee2ec6adcde69638e5d621d66e992b1f13aa647661311598108af1323b4d12140a035a6487abaff1
