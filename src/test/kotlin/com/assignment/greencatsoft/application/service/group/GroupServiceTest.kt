@@ -58,7 +58,6 @@ class GroupServiceTest {
         on { isPrivate } doReturn false
     }
 
-
     private val mockOwnerGroup: Group = mock {
         on { id } doReturn 2L
         on { owner } doReturn baseOwner
