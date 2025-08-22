@@ -87,4 +87,10 @@ object CustomErrorCode {
         override val label = "데이터를 찾을 수 없습니다."
         override val statusCode = HttpStatus.SC_BAD_REQUEST
     }
+
+    object NotMySchedule : ErrorCode {
+        override val code = "NOT_MY_SCHEDULE"
+        override val label = "사용자의 일정이 아닙니다."
+        override val statusCode = HttpStatus.SC_BAD_REQUEST
+    }
 }
