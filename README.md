@@ -7,6 +7,7 @@
    - 다양한 일정 설정: 일정은 특정 날짜에만 종속되는 일간 일정 (예: 회의)과 시작/종료 시간을 포함하는 시간 일정 (예: 10:00 ~ 12:00 미팅)을 모두 설정할 수 있습니다. 이미 생성된 일정은 다른 그룹으로 쉽게 옮길 수 있습니다.
 2. 소스 빌드 및 실행 방법 메뉴얼
    - Application을 사용하기 위해서는 mysql localhost에 SCHEDULE이라는 데이터베이스가 생성되어야 합니다.
+   - src/main/resources/application.yml 의 spring:datasource:username 과 password에 로컬 계정정보를 입력해주시길 바랍니다.
    - database는 아래의 쿼리를 사용합니다.
     ```mysql
     CREATE DATABASE `SCHEDULE` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  DEFAULT ENCRYPTION='N';
