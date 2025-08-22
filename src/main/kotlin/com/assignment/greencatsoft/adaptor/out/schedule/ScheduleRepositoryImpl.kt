@@ -73,6 +73,22 @@ class ScheduleRepositoryImpl(
             )
             .fetch()
     }
+
+    override fun isMySchedule(email: String, id: Long): Boolean {
+        val res = factory
+            .select(scheduleEntity.id)
+            .from(scheduleEntity)
+            .join(groupUserEntity)
+            .on(
+                groupUserEntity.groupId.eq(scheduleEntity.groupId),
+                groupUserEntity.userEmail.eq(email),
+            )
+            .where(scheduleEntity.id.eq(id))
+            .limit(1)
+            .fetchOne()
+
+        return res != null
+    }
 }
 
 data class GetScheduleResDto(

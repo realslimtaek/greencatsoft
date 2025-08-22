@@ -14,4 +14,6 @@ interface ScheduleOperationUseCase {
     fun addSchedule(req: AddScheduleReq)
 
     fun updateSchedule(req: UpdateScheduleReq)
+
+    fun deleteSchedule(email: String, id: Long)
 }

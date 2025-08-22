@@ -68,31 +68,37 @@ class ScheduleEndpoint(
     }
 
     @DeleteMapping("/{id}")
-    fun deleteSchedule(@Parameter(hidden = true) @RequestHeader("Authorization") token: String, @PathVariable id: Long) {
+    @Operation(summary = "일정 삭제", description = "일정을 삭제합니다.")
+    @Parameter(name = "id", description = "일정 id", example = "1", required = true)
+    fun deleteSchedule(
+        @Parameter(hidden = true) @RequestHeader("Authorization") token: String,
+        @PathVariable id: Long,
+    ): ResponseEntity<String> {
         val (email, _) = tokenQueryUseCase.getSubAndRole(token)
 
-
+        operationUseCase.deleteSchedule(email, id)
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build()
     }
 }
 
 data class AddScheduleReqDto(
     @field:Schema(name = "groupId", example = "1", description = "해당 일정이 소속될 그룹을 정합니다.", required = true)
     override val groupId: Long,
-    @field:Schema(name = "title", example = "나의 일정입니다", description = "일정 제목", required = true)
+    @field:Schema(name = "title", example = "점심시간", description = "일정 제목", required = true)
     override val title: String?,
-    @field:Schema(name = "startDate", example = "1", description = "일정 시작 일자", required = true)
+    @field:Schema(name = "startDate", example = "2025-08-01", description = "일정 시작 일자", required = true)
     override val startDate: LocalDate,
-    @field:Schema(name = "startTime", example = "1", description = "일정 시작 시각, null 이면 종일 일정입니다.", required = true)
+    @field:Schema(name = "startTime", example = "12:00:00", description = "일정 시작 시각, null 이면 종일 일정입니다.", required = true)
     override val startTime: LocalTime?,
-    @field:Schema(name = "endDate", example = "1", description = "일정 종료 일자", required = true)
+    @field:Schema(name = "endDate", example = "2025-08-01", description = "일정 종료 일자", required = true)
     override val endDate: LocalDate,
-    @field:Schema(name = "endTime", example = "1", description = "일정 종료 시각, null 이면 종일 일정입니다.", required = true)
+    @field:Schema(name = "endTime", example = "14:00:00", description = "일정 종료 시각, null 이면 종일 일정입니다.", required = true)
     override val endTime: LocalTime?,
-    @field:Schema(name = "memo", example = "1", description = "일정 메모", required = true)
+    @field:Schema(name = "memo", example = "제육볶음먹자", description = "일정 메모", required = true)
     override val memo: String?,
-    @field:Schema(name = "writer", example = "1", description = "최종 작성자", required = true, hidden = true)
-    override var writer: String = "",
-) : AddScheduleReq
+) : AddScheduleReq {
+    override lateinit var writer: String
+}
 
 data class UpdateScheduleReqDto(
     @field:Schema(name = "id", example = "1", description = "일정", required = true)
@@ -111,6 +117,7 @@ data class UpdateScheduleReqDto(
     override val endTime: LocalTime?,
     @field:Schema(name = "memo", example = "1", description = "일정 메모", required = true)
     override val memo: String?,
-    @field:Schema(name = "writer", example = "1", description = "최종 작성자", required = true, hidden = true)
-    override var writer: String = "",
-) : UpdateScheduleReq
+) : UpdateScheduleReq {
+
+    override lateinit var writer: String
+}

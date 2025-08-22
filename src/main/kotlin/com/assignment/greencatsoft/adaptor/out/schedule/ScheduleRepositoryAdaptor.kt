@@ -30,11 +30,15 @@ class ScheduleRepositoryAdaptor(
         ?.run(mapper::toDomain)
         ?: throwError(CustomErrorCode.DataNotFound)
 
-    override fun getSchedule(email: String, ym: YearMonth, groupId: Long?) {
-        TODO("Not yet implemented")
-    }
+    override fun getSchedules(email: String, ym: YearMonth, groupId: Long?) = repository.getSchedule(email, ym, groupId)
+
+    override fun isMySchedule(email: String, id: Long): Boolean = repository.isMySchedule(email, id)
 
     override fun save(domain: Schedule) {
         repository.save(mapper.toEntity(domain))
+    }
+
+    override fun delete(id: Long) {
+        repository.deleteById(id)
     }
 }
