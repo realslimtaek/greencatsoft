@@ -1,7 +1,9 @@
 package com.assignment.greencatsoft.application.service.user
 
+import com.assignment.greencatsoft.adaptor.`in`.user.UpdateUserInfoReq
+import com.assignment.greencatsoft.adaptor.`in`.user.UserInfoResDto
 import com.assignment.greencatsoft.adaptor.`in`.user.UserSignInReqDto
-import com.assignment.greencatsoft.adaptor.out.user.UserEntity
+import com.assignment.greencatsoft.adaptor.out.user.UserEntity.UserStatus
 import com.assignment.greencatsoft.application.port.`in`.token.TokenOperationUseCase
 import com.assignment.greencatsoft.application.port.out.group.GroupSavePort
 import com.assignment.greencatsoft.application.port.out.groupUser.GroupUserSavePort
@@ -51,21 +53,33 @@ class UserServiceTest {
         )
     }
 
+    val defaultMockEmail = "test@example.com"
+    val defaultMockPassword = "Password123!"
+
+    // save() 호출 시 mock User를 반환
+    val mockPendingUser: User = mock {
+        on { id } doReturn 1L
+        on { email } doReturn defaultMockEmail
+        on { password } doReturn "encodedPassword1!"
+        on { name } doReturn null
+        on { status } doReturn UserStatus.PENDING
+    }
+
+    // save() 호출 시 mock User를 반환
+    val mockActiveUser: User = mock {
+        on { id } doReturn 1L
+        on { email } doReturn defaultMockEmail
+        on { password } doReturn "encodedPassword1!"
+        on { name } doReturn "need2change"
+        on { status } doReturn UserStatus.ACTIVE
+    }
+
     @Test
     fun `회원가입 비즈니스 로직 테스트`() {
         // given
-        val req = UserSignInReqDto("test@example.com", "Password123!", "Password123!")
+        val req = UserSignInReqDto(defaultMockEmail, defaultMockPassword, "Password123!")
 
         doNothing().`when`(userGetPort).checkExistsEmail(req.email)
-
-        // save() 호출 시 mock User를 반환
-        val mockUser: User = mock {
-            on { id } doReturn 1L
-            on { email } doReturn req.email
-            on { password } doReturn passwordEncoder.encode(req.password)
-            on { name } doReturn null
-            on { status } doReturn UserEntity.UserStatus.PENDING
-        }
 
         val mockGroup: Group = mock {
             on { id } doReturn 1L
@@ -74,9 +88,9 @@ class UserServiceTest {
             on { private } doReturn true
         }
 
-        whenever(userSavePort.save(req)).thenReturn(mockUser)
+        whenever(userSavePort.save(req)).thenReturn(mockPendingUser)
 
-        whenever(groupSavePort.makePersonalGroup(mockUser)).thenReturn(mockGroup)
+        whenever(groupSavePort.makePersonalGroup(mockPendingUser)).thenReturn(mockGroup)
 
         // when
         userService.signIn(req)
@@ -94,6 +108,38 @@ class UserServiceTest {
         assertTrue(passwordEncoder.matches(req.password, savedUser.password))
         assertEquals(1L, savedUser.id)
         assertNull(savedUser.name)
-        assertEquals(UserEntity.UserStatus.PENDING, savedUser.status)
+        assertEquals(UserStatus.PENDING, savedUser.status)
+    }
+
+    @Test
+    fun `사용자 정보 수정`() {
+        val req = object : UpdateUserInfoReq {
+            override val email = defaultMockEmail
+            override val name = "홍길동"
+        }
+
+        val updatedUser = mockPendingUser.apply {
+            this.name = req.name
+            this.status = UserStatus.ACTIVE
+        }
+
+        val expectedRes = UserInfoResDto(
+            id = updatedUser.id!!,
+            email = updatedUser.email,
+            name = updatedUser.name,
+            status = updatedUser.status.name,
+        )
+
+        whenever(userGetPort.findByEmail(req.email)).thenReturn(mockPendingUser)
+        whenever(userSavePort.save(any<User>())).thenReturn(updatedUser)
+        whenever(responseMapper.toUpdateRes(updatedUser)).thenReturn(expectedRes)
+
+        val actualRes = userService.updateInfo(req)
+
+        verify(userGetPort).findByEmail(req.email)
+        verify(userSavePort).save(mockPendingUser)
+        verify(responseMapper).toUpdateRes(updatedUser)
+
+        assertEquals(expectedRes, actualRes)
     }
 }
