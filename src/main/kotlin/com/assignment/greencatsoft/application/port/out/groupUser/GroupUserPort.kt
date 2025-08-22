@@ -20,4 +20,6 @@ interface GroupUserGetPort {
     fun checkExistsUser(groupId: Long, userEmail: String): Boolean
 
     fun getInviteHistory(groupId: Long, email: String): GroupUser
+
+    fun amIInGroup(groupId: Long, email: String): Boolean
 }

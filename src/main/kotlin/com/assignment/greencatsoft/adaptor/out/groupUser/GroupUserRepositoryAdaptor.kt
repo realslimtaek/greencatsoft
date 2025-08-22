@@ -43,4 +43,6 @@ class GroupUserRepositoryAdaptor(
     override fun getInviteHistory(groupId: Long, email: String) = repository.findByGroupIdAndUserEmailAndAcceptedIsFalse(groupId, email)
         ?.run(groupUserMapper::toDomain)
         ?: throwError(CustomErrorCode.NotFoundInvite)
+
+    override fun amIInGroup(groupId: Long, email: String) = repository.existsByGroupIdAndUserEmailAndAcceptedIsTrue(groupId, email)
 }

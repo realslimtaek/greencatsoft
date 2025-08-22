@@ -29,7 +29,7 @@ class ScheduleRepositoryImpl(
                     GetScheduleResDto::class.java,
                     scheduleEntity.id,
                     groupEntity.name.`as`("groupName"),
-                    scheduleEntity.writer.`as`("writerName"),
+                    userEntity.name.`as`("writerName"),
                     scheduleEntity.title,
                     scheduleEntity.startDate,
                     scheduleEntity.startTime,
@@ -49,6 +49,7 @@ class ScheduleRepositoryImpl(
             .join(groupUserEntity)
             .on(
                 groupUserEntity.groupId.eq(groupEntity.id),
+                groupUserEntity.accepted.isTrue
             )
             .join(userEntity)
             .on(

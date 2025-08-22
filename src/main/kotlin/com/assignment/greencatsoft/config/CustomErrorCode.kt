@@ -93,4 +93,10 @@ object CustomErrorCode {
         override val label = "사용자의 일정이 아닙니다."
         override val statusCode = HttpStatus.SC_BAD_REQUEST
     }
+
+    object NotMyGroup: ErrorCode {
+        override val code = "NOT_MY_GROUP"
+        override val label = "해당 그룹의 일원이 아닙니다."
+        override val statusCode = HttpStatus.SC_BAD_REQUEST
+    }
 }

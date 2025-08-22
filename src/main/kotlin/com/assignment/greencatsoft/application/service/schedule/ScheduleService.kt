@@ -4,6 +4,7 @@ import com.assignment.greencatsoft.adaptor.`in`.schedule.AddScheduleReq
 import com.assignment.greencatsoft.adaptor.`in`.schedule.UpdateScheduleReq
 import com.assignment.greencatsoft.application.port.`in`.schedule.ScheduleOperationUseCase
 import com.assignment.greencatsoft.application.port.`in`.schedule.ScheduleQueryUseCase
+import com.assignment.greencatsoft.application.port.out.groupUser.GroupUserGetPort
 import com.assignment.greencatsoft.application.port.out.schedule.ScheduleGetPort
 import com.assignment.greencatsoft.application.port.out.schedule.ScheduleSavePort
 import com.assignment.greencatsoft.config.CustomErrorCode
@@ -17,6 +18,7 @@ import java.time.YearMonth
 class ScheduleService(
     private val scheduleSavePort: ScheduleSavePort,
     private val scheduleGetPort: ScheduleGetPort,
+    private val groupUserGetPort: GroupUserGetPort,
 ) : ScheduleOperationUseCase, ScheduleQueryUseCase {
 
     override fun deleteSchedule(email: String, id: Long) {
@@ -28,7 +30,9 @@ class ScheduleService(
     }
 
     override fun addSchedule(req: AddScheduleReq) {
-        scheduleSavePort.addSchedule(req)
+        if(groupUserGetPort.amIInGroup(req.groupId, req.writer))
+            scheduleSavePort.addSchedule(req)
+        else throwError(CustomErrorCode.NotMyGroup)
     }
 
     override fun updateSchedule(req: UpdateScheduleReq) {
