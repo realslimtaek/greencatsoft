@@ -31,6 +31,10 @@ class SecurityConfig(
         .csrf { it.disable() }
         .headers { it.frameOptions { frameOptions -> frameOptions.sameOrigin() } }
         .authorizeHttpRequests {
+            it.requestMatchers("/group/**").hasRole("USER")
+            it.requestMatchers("/grou/user/**").hasRole("USER")
+            it.requestMatchers("/schedule/**").hasRole("USER")
+            it.requestMatchers("/user").hasRole("USER")
             it.anyRequest().permitAll() // 모든 요청 허용
         }
         .exceptionHandling {
