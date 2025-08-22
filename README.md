@@ -1,7 +1,7 @@
 ## 일정관리 백엔드
 
 1. 자신이 개발한 앱에 대한 설명
-   - 인증 및 권한 관리: Spring Security와 JWT를 사용해 로그인 및 회원가입 기능을 구현했습니다. 테스트 편의성을 위해 Access Token의 만료 기한을 한 달로 설정했습니다.
+   - 인증 및 권한 관리: Spring Security와 JWT를 사용해 로그인 및 회원가입 기능을 구현했습니다. 테스트 편의성을 위해 Access Token의 만료 기한을 24시간으로 설정했습니다. / 그렇기에 accessToken을 재발급 받는 로직을 추가하지 않았습니다.
    - 사용자 상태 관리: 회원가입 시 사용자는 Pending 상태로 등록됩니다. 사용자가 로그인 후 마이페이지에서 이름을 업데이트하면 자동으로 Active 상태로 변경되어 앱의 모든 기능을 사용할 수 있습니다.
    - 그룹 및 일정 공유: 모든 사용자는 개인 일정 관리를 위한 기본 그룹을 자동으로 갖게 됩니다. 다른 사용자와 일정을 공유하려면 새로운 그룹을 생성하고, 회원가입된 사용자를 초대해야 합니다. 초대받은 사용자가 초대를 수락해야만 그룹의 구성원이 될 수 있습니다.
    - 다양한 일정 설정: 일정은 특정 날짜에만 종속되는 일간 일정 (예: 회의)과 시작/종료 시간을 포함하는 시간 일정 (예: 10:00 ~ 12:00 미팅)을 모두 설정할 수 있습니다. 이미 생성된 일정은 다른 그룹으로 쉽게 옮길 수 있습니다.
@@ -68,7 +68,7 @@
     CREATE TABLE `TOKEN` (
         `ID` bigint NOT NULL AUTO_INCREMENT,
         `EMAIL` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-        `ROLE` enum('USER') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+        `ROLE` enum('ROLE_USER') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
         `REFRESH_TOKEN` text COLLATE utf8mb4_general_ci NOT NULL,
         `REFRESH_EXPIRED_AT` datetime NOT NULL,
         `CREATED_AT` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

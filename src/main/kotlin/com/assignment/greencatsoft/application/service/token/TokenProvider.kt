@@ -14,6 +14,7 @@ import io.jsonwebtoken.UnsupportedJwtException
 import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.transaction.Transactional
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseCookie
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -30,12 +31,13 @@ import java.util.UUID
 class TokenProvider(
     private val getUserPort: UserGetPort,
     private val tokenSavePort: TokenSavePort,
+    @Value("\${dv.jwt.key}")
+    private val jwtKey: String,
 ) : TokenQueryUseCase, TokenOperationUseCase {
 
     private val current get() = LocalDateTime.now(ZoneOffset.of("+8"))
     private val key: Key = Keys.hmacShaKeyFor(
-        "a90751ed6690ed27c0d701abbb8cc3192fdad41d01722230ee2ec6adcde69638e5d621d66e992b1f13aa647661311598108af1323b4d12140a035a6487abaff1"
-            .toByteArray(Charsets.UTF_8),
+        jwtKey.toByteArray(Charsets.UTF_8),
     )
 
     override fun createToken(user: User): Pair<String, String> {
@@ -44,7 +46,7 @@ class TokenProvider(
         val refreshToken = createRefreshToken(user.email, refreshTokenTime)
         val accessToken = createToken(user, accessTokenTime)
 
-        tokenSavePort.addToken(refreshToken, refreshTokenTime, user.email, Role.USER)
+        tokenSavePort.addToken(refreshToken, refreshTokenTime, user.email, Role.ROLE_USER)
 
         return accessToken to createCookie(refreshToken)
     }
@@ -105,7 +107,7 @@ class TokenProvider(
         val (email, role) = getSubAndRole(token)
 
         val account = when (role) {
-            Role.USER -> getUserPort.findByEmail(email)
+            Role.ROLE_USER -> getUserPort.findByEmail(email)
         }
 
         val loginUserDetail = LoginUserDetail(account, role)
@@ -124,7 +126,7 @@ class TokenProvider(
         .setHeaderParam("typ", "JWT")
         .setSubject(user.email)
         .claim("name", user.name)
-        .claim("role", Role.USER)
+        .claim("role", Role.ROLE_USER)
         .claim("status", user.status.name)
         .setExpiration(Date(tokenExpireTime.toInstant(ZoneOffset.of("+09:00")).toEpochMilli()))
         .signWith(key, SignatureAlgorithm.HS512)
