@@ -2,6 +2,7 @@ package com.assignment.greencatsoft.application.service.group
 
 import com.assignment.greencatsoft.adaptor.`in`.group.DefaultGroupRes
 import com.assignment.greencatsoft.adaptor.`in`.group.GroupAddReq
+import com.assignment.greencatsoft.adaptor.`in`.group.GroupListRes
 import com.assignment.greencatsoft.application.port.out.group.GroupGetPort
 import com.assignment.greencatsoft.application.port.out.group.GroupSavePort
 import com.assignment.greencatsoft.application.port.out.groupUser.GroupUserSavePort
@@ -41,15 +42,32 @@ class GroupServiceTest {
 
     val baseUser = "asdf@asdf2.com"
 
-    private val mockOwnerGroup: Group = mock {
+    private val mockPrivateGroupRes: GroupListRes = mock {
         on { id } doReturn 1L
+        on { name } doReturn "나의 일정"
+        on { isOwner } doReturn true
+        on { accepted } doReturn true
+        on { isPrivate } doReturn true
+    }
+
+    private val mockPublicGroupRes: GroupListRes = mock {
+        on { id } doReturn 3L
+        on { name } doReturn "부산여행"
+        on { isOwner } doReturn false
+        on { accepted } doReturn true
+        on { isPrivate } doReturn false
+    }
+
+
+    private val mockOwnerGroup: Group = mock {
+        on { id } doReturn 2L
         on { owner } doReturn baseOwner
         on { name } doReturn baseName
         on { private } doReturn false
     }
 
     private val mockOtherGroup: Group = mock {
-        on { id } doReturn 2L
+        on { id } doReturn 3L
         on { owner } doReturn baseUser
         on { name } doReturn "부산여행"
         on { private } doReturn false
@@ -98,5 +116,18 @@ class GroupServiceTest {
 
         verify(groupGetPort).findById(any())
         verify(groupUserSavePort).resignGroup(2L, baseUser)
+    }
+
+    @Test
+    fun `그룹 목록 조회 테스트`() {
+        val mockGroupList = listOf(mockPrivateGroupRes, mockPublicGroupRes)
+
+        whenever(groupGetPort.getGroups(baseOwner)).thenReturn(mockGroupList)
+
+        val res = groupService.getGroups(baseOwner)
+
+        verify(groupGetPort).getGroups(baseOwner)
+
+        assertEquals(mockGroupList, res)
     }
 }
