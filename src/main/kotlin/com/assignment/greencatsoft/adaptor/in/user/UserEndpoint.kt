@@ -75,11 +75,13 @@ class UserEndpoint(
 }
 
 data class UpdateUserInfoReqDto(
-    @field:Schema(name = "email", example = "", description = "token에서 자동으로 파싱됩니다.", nullable = false, hidden = true)
-    override var email: String = "",
+//    @field:Schema(name = "email", example = "", description = "token에서 자동으로 파싱됩니다.", nullable = false, hidden = true)
+//    override var email: String = "email.com",
     @field:Schema(name = "name", example = "홍길동", description = "사용자 이름", nullable = false)
     override val name: String,
-) : UpdateUserInfoReq
+) : UpdateUserInfoReq {
+    override lateinit var email: String
+}
 
 data class UserLoginReqDto(
     @field:Schema(name = "email", example = "asdf@asdf.com", description = "사용자 이메일", nullable = false)

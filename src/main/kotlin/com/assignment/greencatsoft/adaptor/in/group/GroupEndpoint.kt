@@ -46,7 +46,7 @@ class GroupEndpoint(
     }
 
     @GetMapping
-    @Operation(summary = "그룹 조회", description = "개인 그룹을 제외한 그룹들을 조회합니다.")
+    @Operation(summary = "그룹 조회", description = "모든 그룹을 조회합니다.")
     fun getGroups(@Parameter(hidden = true) @RequestHeader("Authorization") token: String): ResponseEntity<List<GroupListRes>> {
         val (email, _) = tokenQueryUseCase.getSubAndRole(token)
         val res = queryUseCase.getGroups(email)
@@ -68,8 +68,8 @@ class GroupEndpoint(
 }
 
 data class GroupAddReqDto(
-    @field:Schema(name = "owner", example = "", description = "token에서 자동으로 파싱됩니다.", nullable = false, hidden = true)
-    override var owner: String = "",
     @field:Schema(name = "name", example = "가족여행", description = "그룹명", nullable = false)
     override val name: String,
-) : GroupAddReq
+) : GroupAddReq {
+    override lateinit var owner: String
+}

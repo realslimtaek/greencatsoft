@@ -12,7 +12,7 @@ object GroupMapper {
     fun toEntity(domain: Group) = GroupEntity(
         owner = domain.owner,
         name = domain.name,
-        private = domain.private,
+        isPrivate = domain.private,
     ).apply {
         this.id = domain.id
     }
@@ -21,18 +21,18 @@ object GroupMapper {
         id = entity.id!!,
         owner = entity.owner,
         name = entity.name,
-        private = entity.private,
+        private = entity.isPrivate,
     )
 
     fun toPersonalGroup(user: User) = GroupEntity(
         owner = user.email,
         name = "나의 일정",
-        private = true,
+        isPrivate = true,
     )
 
     fun toEntity(req: GroupAddReq) = GroupEntity(
         owner = req.owner,
         name = req.name,
-        private = false,
+        isPrivate = false,
     )
 }

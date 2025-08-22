@@ -67,11 +67,11 @@ class GroupUserEndpoint(
 data class GroupInviteReqDto(
     @field:Schema(name = "groupId", example = "1", description = "초대할 그룹의 ID", nullable = false)
     override val groupId: Long,
-    @field:Schema(name = "owner", example = "", description = "token에서 자동으로 파싱됩니다.", nullable = false, hidden = true)
-    override var owner: String = "",
     @field:Schema(name = "email", example = "asdf@asdf.com", description = "초대할 대상의 이메일. 해당 이메일은 회원이어야합니다.", nullable = false)
     override val email: String,
 ) : GroupInviteReq {
+    override lateinit var owner: String
+
 
     init {
         validate()
