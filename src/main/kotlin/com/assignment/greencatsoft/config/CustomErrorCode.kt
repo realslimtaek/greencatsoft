@@ -81,4 +81,10 @@ object CustomErrorCode {
         override val label = "해당 이메일은 가입 이력이 있습니다."
         override val statusCode = HttpStatus.SC_BAD_REQUEST
     }
+
+    object DataNotFound : ErrorCode {
+        override val code = "DATA_NOT_FOUND"
+        override val label = "데이터를 찾을 수 없습니다."
+        override val statusCode = HttpStatus.SC_BAD_REQUEST
+    }
 }

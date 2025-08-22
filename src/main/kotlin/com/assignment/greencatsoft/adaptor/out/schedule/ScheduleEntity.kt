@@ -14,7 +14,7 @@ import java.time.LocalTime
 class ScheduleEntity(
 
     @Column(name = "GROUP_ID", columnDefinition = "bigint(11)", nullable = false)
-    val groupId: Long,
+    var groupId: Long,
 
     @Column(name = "TITLE", columnDefinition = "varchar(30)")
     var title: String?,
@@ -39,5 +39,8 @@ class ScheduleEntity(
     @Comment("일정에 대한 추가 메모")
     var memo: String? = null,
 
+    @Column(name = "WRITER", columnDefinition = "varchar(30)", nullable = false)
+    @Comment("일정에 대한 추가 메모")
+    var writer: String,
 
 ) : BaseEntity()

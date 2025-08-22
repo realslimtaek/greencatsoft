@@ -1,13 +1,45 @@
 package com.assignment.greencatsoft.application.service.schedule
 
+import com.assignment.greencatsoft.adaptor.`in`.schedule.AddScheduleReq
+import com.assignment.greencatsoft.adaptor.`in`.schedule.GetScheduleRes
+import com.assignment.greencatsoft.adaptor.`in`.schedule.UpdateScheduleReq
 import com.assignment.greencatsoft.application.port.`in`.schedule.ScheduleOperationUseCase
 import com.assignment.greencatsoft.application.port.`in`.schedule.ScheduleQueryUseCase
 import com.assignment.greencatsoft.application.port.out.schedule.ScheduleGetPort
 import com.assignment.greencatsoft.application.port.out.schedule.ScheduleSavePort
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import java.time.YearMonth
 
 @Service
+@Transactional
 class ScheduleService(
     private val scheduleSavePort: ScheduleSavePort,
     private val scheduleGetPort: ScheduleGetPort,
-): ScheduleOperationUseCase, ScheduleQueryUseCase
+) : ScheduleOperationUseCase, ScheduleQueryUseCase {
+
+    override fun addSchedule(req: AddScheduleReq) {
+        scheduleSavePort.addSchedule(req)
+    }
+
+    override fun updateSchedule(req: UpdateScheduleReq) {
+        scheduleGetPort.findById(req.id)
+            .apply {
+                this.groupId = req.groupId
+                this.title = req.title
+                this.startDate = req.startDate
+                this.startTime = req.startTime
+                this.endDate = req.endDate
+                this.endTime = req.endTime
+                this.memo = req.memo
+                this.writer = req.writer
+            }
+            .run(scheduleSavePort::save)
+    }
+
+    override fun getSchedule(email: String, ym: YearMonth, groupId: Long?): List<GetScheduleRes> {
+
+        TODO("진행중")
+        scheduleGetPort.getSchedule(email, ym, groupId)
+    }
+}
