@@ -121,7 +121,7 @@
 3. 주요 라이브러리 및 기술 스택
    - Spring Security & JWT: 사용자 인증/인가를 분리 처리하고, Access Token에서 필요한 정보를 추출하기 위해 사용했습니다.
    - QueryDSL: 복잡한 JPA 쿼리를 더 간결하고 타입 안전하게 작성하기 위해 채택했습니다. 이를 통해 필요한 데이터만 효율적으로 조회할 수 있습니다.
-   - Mockito-Kotlin: Kotlin의 장점을 활용해 테스트 코드를 간결하게 작성하기 위해 사용했습니다. 예를 들어, Mock 객체의 메서드 인자를 검증할 때 Mockito의 any() 대신 any<SomeClass>()와 같이 타입을 명시하여 가독성을 높였습니다.
+   - Mockito-Kotlin: Kotlin의 장점을 활용해 테스트 코드를 간결하게 작성하기 위해 사용했습니다.
 4. api 명세서
    - http://localhost:8008/gs/swagger-ui/index.html
 5. DB ERD
